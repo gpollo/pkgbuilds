@@ -21,6 +21,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v5.x/${_srcname}.tar.xz"
         "http://rcn-ee.com/deb/sid-armhf/v${rcnver}-${rcnrel}/patch-${rcnver%.0}-${rcnrel}.diff.gz"
         "git+https://github.com/RobertCNelson/bb.org-overlays.git"
         '0001-add-lcd-cape-for-chiliboard.patch'
+        '00-17-ALL-Add-support-for-TI-PRU-ICSS.patch'
         'config'
         'linux.preset'
         '99-linux.hook')
@@ -29,7 +30,8 @@ md5sums=('f63ed18935914e1ee3e04c2a0ce1ba3b'
          '13f921673b03e7d5a03d2d46a85b4240'
          'SKIP'
          'ee16bcdbbf978e714455933ecd6dd8fe'
-         '6364f27a811ba07cb7c9c01de8c8e31e'
+         'a6e79d938e6933ad003390c576e3f1e9'
+         '14e8d92d8c8ead615629f981bf9b97e3'
          '78ccc998f27eec49a9d5490218b1b1ab'
          '79fa396e3f9a09a85156d6d7c2d34b58')
 
@@ -44,6 +46,9 @@ prepare() {
 
   # ALARM patches
   git apply ../0001-add-lcd-cape-for-chiliboard.patch
+
+  # PRU patches
+  git apply ../00-17-ALL-Add-support-for-TI-PRU-ICSS.patch
 
   cat "${srcdir}/config" > ./.config
 
