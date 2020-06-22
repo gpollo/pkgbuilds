@@ -27,10 +27,6 @@ md5sums=('SKIP'
          '78ccc998f27eec49a9d5490218b1b1ab'
          '79fa396e3f9a09a85156d6d7c2d34b58')
 
-  
-ARCH=arm
-CROSS_COMPILE=arm-none-eabi-
-
 prepare() {
   cd "${srcdir}/${_srcname}"
 
@@ -47,7 +43,7 @@ build() {
   cd "${srcdir}/${_srcname}"
 
   # get kernel version
-  make prepare ARCH=arm CROSS_COMPILE=arm-none-eabi- 
+  make prepare
 
   # load configuration
   # Configure the kernel. Replace the line below with one of your choice.
@@ -70,11 +66,11 @@ build() {
   #yes "" | make config
 
   # build!
-  make ${MAKEFLAGS} zImage modules dtbs ARCH=arm CROSS_COMPILE=arm-none-eabi- 
+  make ${MAKEFLAGS} zImage modules dtbs
 
   # build overlays
   cd "${srcdir}/bb.org-overlays"
-  make DTC=/usr/bin/dtc ARCH=arm CROSS_COMPILE=arm-none-eabi-
+  make DTC=/usr/bin/dtc
 }
 
 _package() {
@@ -92,13 +88,13 @@ _package() {
   KARCH=arm
 
   # get kernel version
-  _kernver="$(make kernelrelease ARCH=arm CROSS_COMPILE=arm-none-eabi-)"
+  _kernver="$(make kernelrelease)"
   _basekernel=${_kernver%%-*}
   _basekernel=${_basekernel%.*}
 
   mkdir -p "${pkgdir}"/{lib/modules,lib/firmware}
-  make INSTALL_MOD_PATH="${pkgdir}" modules_install ARCH=arm CROSS_COMPILE=arm-none-eabi- 
-  make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs" dtbs_install ARCH=arm CROSS_COMPILE=arm-none-eabi- 
+  make INSTALL_MOD_PATH="${pkgdir}" modules_install
+  make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs" dtbs_install
   cp arch/$KARCH/boot/zImage "${pkgdir}/boot/zImage"
 
   # set correct depmod command for install
